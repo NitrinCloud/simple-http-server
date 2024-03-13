@@ -49,7 +49,7 @@ public class HttpServer {
                     String baseRequest = lines[0];
                     String[] baseRequestParameter = baseRequest.split(" ");
                     String baseMethod = baseRequestParameter[0];
-                    String basePath = baseRequestParameter[1];
+                    String basePath = baseRequestParameter[1]; // TODO Query Parameter
                     String baseProtocol = baseRequestParameter[2];
 
                     HashMap<String, String> headers = new HashMap<>();
@@ -64,6 +64,7 @@ public class HttpServer {
                         headers.put(header.substring(0, splitIndex), header.substring(splitIndex + 1).trim());
                     }
 
+                    // support form data / currently only application/x-www-form-urlencoded
                     StringBuilder bodyBuilder = new StringBuilder();
                     String contentType = headers.get("Content-Type");
                     if (contentType != null) {
@@ -95,7 +96,7 @@ public class HttpServer {
                     }
 
                     writer.flush();
-                    //reader.close();
+                    reader.close();
                     writer.close();
                 } catch (IOException ignored) {
                 }
